@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Typography, Button, TextField } from '@mui/material';
+import {Typography, Button } from '@mui/material';
 const tg = window.Telegram.WebApp;
 
 
@@ -162,30 +162,31 @@ const onClose = () =>{
     <div>
       <Button onClick={generateKeys}>Generate Key Pair</Button>
       <div>
-        <TextField
+        <textarea
           placeholder="Public Key"
           value={publicKeyPem}
           onChange={(e) => setPublicKeyPem(e.target.value)}
-        ></TextField>
-        <TextField
+        ></textarea>
+        <textarea
           placeholder="Private Key"
           value={privateKeyPem}
           onChange={(e) => setPrivateKeyPem(e.target.value)}
-        ></TextField>
-        <TextField
+        ></textarea>
+        <textarea
           placeholder="Enter message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-        ></TextField>
+        ></textarea>
         <Button onClick={handleEncrypt}>Encrypt Message</Button>
         
       </div>
       <div>
-        <textarea> placeholder="Encrypted Message"
+        <textarea
+      
+          placeholder="Encrypted Message"
           value={encryptedMessage}
           onChange={(e) => setEncryptedMessage(e.target.value)}
-        </textarea>
-         
+        ></textarea>
         <Button onClick={handleDecrypt}>Decrypt Message</Button>
         <Typography>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
       </div>
