@@ -112,7 +112,6 @@ const App = () => {
       data
     );
 
-    const exportedSymmetricKey = await window.crypto.subtle.exportKey("raw", symmetricKey);
     const encryptedSymmetricKey = await window.crypto.subtle.deriveKey(
       {
         name: "ECDH",
