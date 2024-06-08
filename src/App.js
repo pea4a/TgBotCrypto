@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {Typography, Button } from '@mui/material';
 const tg = window.Telegram.WebApp;
-import decryptText from 'App.css'
+import decryptText from './App.css';
 
 
 const App = () => {
