@@ -185,7 +185,7 @@ const onClose = () =>{
           onChange={(e) => setEncryptedMessage(e.target.value)}
         ></textarea>
         <Button onClick={handleDecrypt}>Decrypt Message</Button>
-        <Typography>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
+        <Typography className='decryptText'>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
       </div>
 
       <Button onClick={onClose}>close</Button>
