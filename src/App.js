@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {Typography, Button } from '@mui/material';
 const tg = window.Telegram.WebApp;
-import decryptText from './App.css';
+
 
 
 const App = () => {
@@ -187,7 +187,7 @@ const onClose = () =>{
           onChange={(e) => setEncryptedMessage(e.target.value)}
         ></textarea>
         <Button onClick={handleDecrypt}>Decrypt Message</Button>
-        <Typography className={decryptText}>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
+        <Typography>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
       </div>
 
       <Button onClick={onClose}>close</Button>

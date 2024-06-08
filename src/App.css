@@ -1,9 +1,7 @@
 .App {
   text-align: center;
 }
-.decryptText{
-  color: aliceblue;
-}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
