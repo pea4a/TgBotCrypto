@@ -157,20 +157,6 @@ const onClose = () =>{
     return decoder.decode(decryptedMessage);
   };
 
-function Copy(containerid) {
-	    let textarea = document.createElement('textarea');
-	    textarea.id = 'temp';
-	    textarea.style.height = 0;
-	    document.body.appendChild(textarea);
-	    textarea.value = document.getElementById(containerid).innerText;
-	    let selector = document.querySelector('#temp');
-	    selector.select();
-	    document.execCommand('copy');
-	    document.body.removeChild(textarea);
-}
-
-
-
   return (
     <div>
       <Button onClick={generateKeys}>Generate Key Pair</Button>
@@ -204,8 +190,6 @@ function Copy(containerid) {
       </div>
 
       <Button onClick={onClose}>close</Button>
-      <button onclick="Copy('toCopy')" title="Copy">Copy</button>
-<div id="toCopy">text to copy!</div>
     </div>
   );
 };
