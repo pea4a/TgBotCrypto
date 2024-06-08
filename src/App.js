@@ -181,10 +181,10 @@ const onClose = () =>{
         
       </div>
       <div>
-        <TextField> placeholder="Encrypted Message"
+        <textarea> placeholder="Encrypted Message"
           value={encryptedMessage}
           onChange={(e) => setEncryptedMessage(e.target.value)}
-        </TextField>
+        </textarea>
          
         <Button onClick={handleDecrypt}>Decrypt Message</Button>
         <Typography>{decryptedMessage && <div>Decrypted Message: {decryptedMessage}</div>}</Typography>
