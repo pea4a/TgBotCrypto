@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {Typography, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 const tg = window.Telegram.WebApp;
-
-
 
 const App = () => {
   const [publicKeyPem, setPublicKeyPem] = useState('');
@@ -11,13 +9,13 @@ const App = () => {
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
 
-useEffect(()=>{
-  tg.ready();
-})
+  useEffect(() => {
+    tg.ready();
+  });
 
-const onClose = () =>{
-  tg.close()
-}
+  const onClose = () => {
+    tg.close();
+  };
 
   const generateKeys = async () => {
     const keys = await generateKeyPair();
@@ -81,11 +79,11 @@ const onClose = () =>{
       type === 'publicKey' ? 'spki' : 'pkcs8',
       binaryDer.buffer,
       {
-        name: "RSA-OAEP",
-        hash: "SHA-256"
+        name: "ECDH",
+        namedCurve: "P-256"
       },
       true,
-      [type === 'publicKey' ? 'encrypt' : 'decrypt']
+      [type === 'publicKey' ? 'deriveKey' : 'deriveBits']
     );
   };
 
@@ -115,24 +113,36 @@ const onClose = () =>{
     );
 
     const exportedSymmetricKey = await window.crypto.subtle.exportKey("raw", symmetricKey);
-    const encryptedSymmetricKey = await window.crypto.subtle.encrypt(
+    const encryptedSymmetricKey = await window.crypto.subtle.deriveKey(
       {
-        name: "RSA-OAEP"
+        name: "ECDH",
+        public: publicKey
       },
-      publicKey,
-      exportedSymmetricKey
+      await importKey(privateKeyPem, 'privateKey'),
+      {
+        name: "AES-GCM",
+        length: 256
+      },
+      true,
+      ["encrypt", "decrypt"]
     );
 
     return { encryptedMessage, encryptedSymmetricKey };
   };
 
   const decryptMessage = async (privateKey, encryptedMessage, encryptedSymmetricKey) => {
-    const decryptedSymmetricKey = await window.crypto.subtle.decrypt(
+    const decryptedSymmetricKey = await window.crypto.subtle.deriveKey(
       {
-        name: "RSA-OAEP"
+        name: "ECDH",
+        public: await importKey(publicKeyPem, 'publicKey')
       },
       privateKey,
-      encryptedSymmetricKey
+      {
+        name: "AES-GCM",
+        length: 256
+      },
+      false,
+      ["decrypt"]
     );
 
     const symmetricKey = await window.crypto.subtle.importKey(
@@ -178,11 +188,9 @@ const onClose = () =>{
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
         <Button onClick={handleEncrypt}>Encrypt Message</Button>
-        
       </div>
       <div>
         <textarea
-      
           placeholder="Encrypted Message"
           value={encryptedMessage}
           onChange={(e) => setEncryptedMessage(e.target.value)}
@@ -198,13 +206,11 @@ const onClose = () =>{
 
 async function generateKeyPair() {
   const keyPair = await window.crypto.subtle.generateKey({
-    name: "RSA-OAEP",
-    modulusLength: 2048,
-    publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-    hash: { name: "SHA-256" }
+    name: "ECDH",
+    namedCurve: "P-256"
   },
   true,
-  ["encrypt", "decrypt"]);
+  ["deriveKey", "deriveBits"]);
 
   return keyPair;
 }
